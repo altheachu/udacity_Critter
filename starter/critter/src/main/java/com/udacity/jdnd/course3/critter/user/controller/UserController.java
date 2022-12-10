@@ -1,5 +1,8 @@
-package com.udacity.jdnd.course3.critter.user;
+package com.udacity.jdnd.course3.critter.user.controller;
 
+import com.udacity.jdnd.course3.critter.user.model.CustomerDTO;
+import com.udacity.jdnd.course3.critter.user.model.EmployeeDTO;
+import com.udacity.jdnd.course3.critter.user.model.EmployeeRequestDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -16,6 +19,7 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+    /**return a saved customer matching the request*/
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         throw new UnsupportedOperationException();
@@ -26,16 +30,19 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
+    /**return the saved owner used to create the pet.*/
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
         throw new UnsupportedOperationException();
     }
 
+    /**return a saved employee*/
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
         throw new UnsupportedOperationException();
     }
 
+    /**return an employee with the same availability as set for that employee*/
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         throw new UnsupportedOperationException();
@@ -46,6 +53,7 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
+    /**return all saved employees that have the requested availability and skills and none that do not*/
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();

@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
  * Dummy controller class to verify installation success. Do not use for
  * your project work.
  */
+/*
+ * 20221206 success confirmed by althea
+ */
 @RestController
 public class CritterController {
-
     @GetMapping("/test")
     public String test(){
         return "Critter Starter installed successfully";
