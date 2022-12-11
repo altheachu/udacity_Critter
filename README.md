@@ -78,6 +78,10 @@ In addition to the included unit tests, a Postman collection has been provided.
 
 Each entry in this collection contains information in its `Body` tab if necessary and all requests should function for a completed project. Depending on your key generation strategy, you may need to edit the specific ids in these requests for your particular project.
 
+### Database authorization SQL
+create user '[accountName]'@'localhost' identified by '[password]'; -- Create the user
+grant all on [schemaName].* to [accountName]@'localhost'; -- Gives all privileges to that user on new db
+
 ## Built With
 
 * [Spring Boot](https://spring.io/projects/spring-boot) - Framework providing dependency injection, web framework, data binding, resource management, transaction management, and more.
