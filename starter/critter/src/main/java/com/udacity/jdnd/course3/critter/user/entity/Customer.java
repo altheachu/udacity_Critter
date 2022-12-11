@@ -14,7 +14,7 @@ public class Customer extends User{
 
     private String notes;
 
-    @OneToMany(mappedBy = "customer", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "customer"/*, cascade = {CascadeType.ALL}*/)
     private Set<Pet> pets;
 
     public String getPhoneNumber() {

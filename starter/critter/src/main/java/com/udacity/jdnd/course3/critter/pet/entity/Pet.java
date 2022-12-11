@@ -32,7 +32,7 @@ public class Pet {
     @ManyToOne(optional = false)
     private Customer customer;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany/*(cascade = {CascadeType.ALL})*/
     @JoinTable(name="pet_schedules", joinColumns = {@JoinColumn(name="pet_id")},inverseJoinColumns = {@JoinColumn(name="schedule_id")})
     private List<Schedule> petSchedules;
 

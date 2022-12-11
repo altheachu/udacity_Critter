@@ -18,10 +18,10 @@ public class Schedule {
     @Column(name="schedule_id",nullable = false)
     private Long id;
 
-    @ManyToMany(mappedBy = "schedules", cascade = {CascadeType.ALL})
+    @ManyToMany(mappedBy = "schedules"/*, cascade = {CascadeType.ALL}*/)
     private List<Employee> employees;
 
-    @ManyToMany(mappedBy = "petSchedules", cascade = {CascadeType.ALL})
+    @ManyToMany(mappedBy = "petSchedules"/*, cascade = {CascadeType.ALL}*/)
     private List<Pet> pets;
 
     @ElementCollection

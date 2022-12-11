@@ -1,39 +1,17 @@
 package com.udacity.jdnd.course3.critter.pet.repository;
 
 import com.udacity.jdnd.course3.critter.pet.entity.Pet;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import java.util.List;
 
-@Repository
-@Transactional
-public class PetRepository {
+public interface PetRepository {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    Pet save(Pet p);
 
-    // Create
-    public void create(Pet pet){
-        entityManager.persist(pet);
-    }
+    Pet findById(Long id);
 
-    // Read
-    public Pet find(Long id){
-        return entityManager.find(Pet.class, id);
-    }
+    List<Pet> findAll();
 
-    // Update
-    public Pet update(Pet pet){
-        return entityManager.merge(pet);
-    }
-
-    // Delete
-    public void delete(Long id){
-        Pet pet = entityManager.find(Pet.class, id);
-        entityManager.remove(pet);
-    }
-
+    void delete(Pet p);
 
 }
