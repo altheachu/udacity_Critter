@@ -2,10 +2,7 @@ package com.udacity.jdnd.course3.critter.user.entity;
 
 import com.udacity.jdnd.course3.critter.pet.entity.Pet;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -17,7 +14,7 @@ public class Customer extends User{
 
     private String notes;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = {CascadeType.ALL})
     private Set<Pet> pets;
 
     public String getPhoneNumber() {
