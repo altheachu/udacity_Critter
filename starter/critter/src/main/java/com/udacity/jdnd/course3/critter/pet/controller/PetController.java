@@ -21,17 +21,12 @@ public class PetController {
     /**return a saved pet*/
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        Pet p = this.converPetDTOToPet(petDTO);
-        p = petService.save(p);
-        return this.converPetToPetDTO(p);
-        //throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        Pet p = petService.findById(petId);
-        return this.converPetToPetDTO(p);
-        //throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @GetMapping

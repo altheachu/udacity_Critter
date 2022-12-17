@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="Schedule")
 public class Schedule {
 
     @Id
@@ -18,10 +17,10 @@ public class Schedule {
     @Column(name="schedule_id",nullable = false)
     private Long id;
 
-    @ManyToMany(mappedBy = "schedules"/*, cascade = {CascadeType.ALL}*/)
+    @ManyToMany(targetEntity = Employee.class)
     private List<Employee> employees;
 
-    @ManyToMany(mappedBy = "petSchedules"/*, cascade = {CascadeType.ALL}*/)
+    @ManyToMany(targetEntity = Pet.class)
     private List<Pet> pets;
 
     @ElementCollection
@@ -70,4 +69,5 @@ public class Schedule {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
 }

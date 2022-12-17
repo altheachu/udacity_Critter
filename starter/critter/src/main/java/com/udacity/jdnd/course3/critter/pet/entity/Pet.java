@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name="Pet")
 public class Pet {
 
     @Id
@@ -24,17 +23,14 @@ public class Pet {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = true)
     private LocalDate birthDate;
 
     @Nationalized
     private String notes;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(targetEntity = Customer.class, optional = false)
     private Customer customer;
-
-    @ManyToMany/*(cascade = {CascadeType.ALL})*/
-    @JoinTable(name="pet_schedules", joinColumns = {@JoinColumn(name="pet_id")},inverseJoinColumns = {@JoinColumn(name="schedule_id")})
-    private List<Schedule> petSchedules;
 
     public Long getId() {
         return id;
@@ -82,14 +78,6 @@ public class Pet {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public List<Schedule> getPetSchedules() {
-        return petSchedules;
-    }
-
-    public void setPetSchedules(List<Schedule> petSchedules) {
-        this.petSchedules = petSchedules;
     }
 
 }

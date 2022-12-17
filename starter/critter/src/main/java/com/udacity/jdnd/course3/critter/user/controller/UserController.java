@@ -1,8 +1,13 @@
 package com.udacity.jdnd.course3.critter.user.controller;
 
+import com.udacity.jdnd.course3.critter.user.entity.Customer;
 import com.udacity.jdnd.course3.critter.user.model.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.model.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.model.EmployeeRequestDTO;
+import com.udacity.jdnd.course3.critter.user.service.CustomerService;
+import org.checkerframework.checker.units.qual.C;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -19,10 +24,22 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+    private CustomerService customerService;
+
+    public UserController(CustomerService customerService){
+        this.customerService = customerService;
+    }
+
     /**return a saved customer matching the request*/
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        throw new UnsupportedOperationException();
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        Customer resultCustomer = customerService.saveCustomer(customer);
+        CustomerDTO resultCustomerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(resultCustomer, resultCustomerDTO);
+        return resultCustomerDTO;
+        //throw new UnsupportedOperationException();
     }
 
     @GetMapping("/customer")
