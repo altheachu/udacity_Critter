@@ -16,12 +16,22 @@ import java.util.List;
 @RequestMapping("/pet")
 public class PetController {
 
-    @Autowired
     private PetService petService;
+
+    PetController(PetService petService){
+        this.petService = petService;
+    }
     /**return a saved pet*/
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        throw new UnsupportedOperationException();
+        Long ownerId = petDTO.getOwnerId();
+        Pet tmpPet = new Pet();
+        BeanUtils.copyProperties(petDTO, tmpPet);
+        Pet resultPet = petService.savePet(tmpPet, ownerId);
+        PetDTO resultPetDTO = new PetDTO();
+        BeanUtils.copyProperties(resultPet, resultPetDTO);
+        return resultPetDTO;
+        //throw new UnsupportedOperationException();
     }
 
     @GetMapping("/{petId}")

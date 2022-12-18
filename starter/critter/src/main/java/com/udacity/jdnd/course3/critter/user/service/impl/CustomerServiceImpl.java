@@ -5,6 +5,8 @@ import com.udacity.jdnd.course3.critter.user.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.user.service.CustomerService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -13,7 +15,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerServiceImpl(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
-
+    @Transactional
     @Override
     public Customer saveCustomer(Customer customer) {
         Customer resultCustomer = customerRepository.save(customer);

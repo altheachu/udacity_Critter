@@ -26,7 +26,7 @@ public class UserController {
 
     private CustomerService customerService;
 
-    public UserController(CustomerService customerService){
+    UserController(CustomerService customerService){
         this.customerService = customerService;
     }
 
