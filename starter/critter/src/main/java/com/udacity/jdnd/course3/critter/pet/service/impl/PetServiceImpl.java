@@ -9,6 +9,9 @@ import com.udacity.jdnd.course3.critter.user.service.impl.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -22,10 +25,31 @@ public class PetServiceImpl implements PetService {
 
     @Transactional
     @Override
-    public Pet savePet(Pet pet, Long ownerId) {
+    public Pet savePet(Pet pet, long ownerId) {
         Customer customer = customerRepository.findById(ownerId).get();
         pet.setCustomer(customer);
-        Pet resultPet =petRepository.save(pet);
-        return resultPet;
+        pet =petRepository.save(pet);
+        return pet;
+    }
+
+    @Override
+    public Pet findPetById(long petId) {
+        return petRepository.findById(petId).get();
+    }
+
+    @Override
+    public List<Pet> findAllPet() {
+        List<Pet> pets = new ArrayList<>();
+        Iterable<Pet> iter = petRepository.findAll();
+        for(Iterator<Pet> iterator = iter.iterator();iterator.hasNext();){
+            pets.add(iterator.next());
+        }
+        return pets;
+    }
+
+    @Override
+    public List<Pet> findPetByOwnerId(long ownerId) {
+        Customer customer = customerRepository.findById(ownerId).get();
+        return customer.getPets();
     }
 }
