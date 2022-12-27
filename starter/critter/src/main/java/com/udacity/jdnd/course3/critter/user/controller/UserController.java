@@ -8,13 +8,16 @@ import com.udacity.jdnd.course3.critter.user.model.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.model.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.user.service.CustomerService;
 import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
+import com.udacity.jdnd.course3.critter.user.utils.EmployeeSkill;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -83,21 +86,30 @@ public class UserController {
         return this.employeeTOEmployeeDTO(employee);
     }
 
-    /**return an employee with the same availability as set for that employee*/
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        return this.employeeTOEmployeeDTO(employee);
     }
 
+    /**return an employee with the same availability as set for that employee*/
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        employeeService.saveDaysAvailableByEmployeeId(daysAvailable, employeeId);
     }
 
     /**return all saved employees that have the requested availability and skills and none that do not*/
     @GetMapping("/employee/availability")
-    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeRequestDTO) {
+        LocalDate inquiryDate = employeeRequestDTO.getDate();
+        Set<EmployeeSkill> inquirySkills = employeeRequestDTO.getSkills();
+        List<Employee> employees = employeeService.findEmployeeMeetService(inquiryDate, inquirySkills);
+        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+        for(Employee employee : employees){
+            EmployeeDTO employeeDTO = this.employeeTOEmployeeDTO(employee);
+            employeeDTOs.add(employeeDTO);
+        }
+        return employeeDTOs;
     }
 
     private Customer customerDTOToCustomer(CustomerDTO customerDTO){
