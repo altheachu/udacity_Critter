@@ -7,6 +7,7 @@ import com.udacity.jdnd.course3.critter.schedule.model.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.schedule.service.ScheduleService;
 import com.udacity.jdnd.course3.critter.user.entity.Employee;
 import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,14 +33,26 @@ public class ScheduleController {
 
     /**return a saved schedule*/
     @PostMapping
-    public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+    public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO){
         Schedule schedule = this.convertScheduleDTOToSchedule(scheduleDTO);
-        return this.convertScheduleToScheduleDTO(schedule);
+        schedule = scheduleService.createSchedule(schedule);
+        if(schedule!=null){
+            scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+        }else{
+            scheduleDTO = null;
+        }
+        return scheduleDTO;
     }
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        throw new UnsupportedOperationException();
+        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+        List<Schedule> schedules = scheduleService.getAllSchedules();
+        schedules.forEach(schedule -> {
+            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+            scheduleDTOs.add(scheduleDTO);
+        });
+        return scheduleDTOs;
     }
 
     /**return all saved schedules for that pet.*/
@@ -84,8 +97,7 @@ public class ScheduleController {
 
     private ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();
-        scheduleDTO.setActivities(schedule.getActivities());
-        scheduleDTO.setDate(schedule.getDate());
+        BeanUtils.copyProperties(schedule,scheduleDTO);
         List<Long> employeeIds = new ArrayList<>();
         schedule.getEmployees().stream().forEach(e->{
             employeeIds.add(e.getId());
