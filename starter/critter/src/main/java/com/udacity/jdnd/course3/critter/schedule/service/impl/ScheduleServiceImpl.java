@@ -1,9 +1,12 @@
 package com.udacity.jdnd.course3.critter.schedule.service.impl;
 
+import com.udacity.jdnd.course3.critter.pet.entity.Pet;
+import com.udacity.jdnd.course3.critter.pet.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.schedule.entity.Schedule;
 import com.udacity.jdnd.course3.critter.schedule.repository.ScheduleRepository;
 import com.udacity.jdnd.course3.critter.schedule.service.ScheduleService;
 import com.udacity.jdnd.course3.critter.user.entity.Employee;
+import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.user.utils.EmployeeSkill;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +16,13 @@ import java.util.*;
 public class ScheduleServiceImpl implements ScheduleService {
 
     private ScheduleRepository scheduleRepository;
+    private PetRepository petRepository;
+    private EmployeeService employeeService;
 
-    ScheduleServiceImpl(ScheduleRepository scheduleRepository){
+    ScheduleServiceImpl(ScheduleRepository scheduleRepository, PetRepository petRepository, EmployeeService employeeService){
         this.scheduleRepository = scheduleRepository;
+        this.petRepository = petRepository;
+        this.employeeService = employeeService;
     }
 
     @Override
@@ -53,5 +60,22 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedules.add(iterator.next());
         }
         return schedules;
+    }
+
+    @Override
+    public List<Schedule> getSchedulesByPetId(long petId) {
+        Pet pet = petRepository.findById(petId).get();
+        return scheduleRepository.findSchedulesByPets(pet);
+    }
+
+    @Override
+    public List<Schedule> getSchedulesByEmployeeId(long employeeId) {
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        return scheduleRepository.findSchedulesByEmployees(employee);
+    }
+
+    @Override
+    public List<Schedule> getSchedulesByPets(List<Pet> pets) {
+        return scheduleRepository.findSchedulesByPetsIn(pets);
     }
 }

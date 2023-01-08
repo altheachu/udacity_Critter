@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Users.
@@ -42,7 +44,7 @@ public class UserController {
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         Customer customer = this.customerDTOToCustomer(customerDTO);
-        customer = customerService.saveCustomer(customer);
+        customer = customerService.saveCustomer(customer, customerDTO.getPetIds());
         return this.customerToCustomerDTO(customer);
     }
 
@@ -121,6 +123,8 @@ public class UserController {
     private CustomerDTO customerToCustomerDTO(Customer customer){
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
+        List<Long> petIds = customer.getPets().stream().map(pet->pet.getId()).collect(Collectors.toList());
+        customerDTO.setPetIds(petIds);
         return customerDTO;
     }
 

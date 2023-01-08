@@ -58,19 +58,42 @@ public class ScheduleController {
     /**return all saved schedules for that pet.*/
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+
+        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+        List<Schedule> schedules = scheduleService.getSchedulesByPetId(petId);
+        schedules.forEach(schedule -> {
+            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+            scheduleDTOs.add(scheduleDTO);
+        });
+        return scheduleDTOs;
+
     }
 
     /**return all saved schedules containing that employee*/
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+
+        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+        List<Schedule> schedules = scheduleService.getSchedulesByEmployeeId(employeeId);
+        schedules.forEach(schedule -> {
+            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+            scheduleDTOs.add(scheduleDTO);
+        });
+        return scheduleDTOs;
+
     }
 
     /**return all saved schedules for any pets belonging to that owner*/
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-        throw new UnsupportedOperationException();
+        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+        List<Pet> pets = petService.findPetByOwnerId(customerId);
+        List<Schedule> schedules = scheduleService.getSchedulesByPets(pets);
+        schedules.forEach(schedule -> {
+            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+            scheduleDTOs.add(scheduleDTO);
+        });
+        return scheduleDTOs;
     }
 
     private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){

@@ -25,7 +25,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
     @Transactional
     @Override
-    public Customer saveCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer, List<Long> petIds) {
+        List<Pet> pets = new ArrayList<>();
+        if(petIds!=null && !petIds.isEmpty()){
+            petIds.forEach(petId->{
+                Pet pet = petRepository.findById(petId).get();
+                pets.add(pet);
+            });
+        }
+        customer.setPets(pets);
         customer = customerRepository.save(customer);
         return customer;
     }
