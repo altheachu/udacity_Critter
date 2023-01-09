@@ -206,7 +206,14 @@ public class CritterFunctionalTest {
         ScheduleDTO sched3 = new ScheduleDTO();
         sched3.setEmployeeIds(sched1.getEmployeeIds());
         sched3.setPetIds(sched2.getPetIds());
-        sched3.setActivities(Sets.newHashSet(EmployeeSkill.SHAVING, EmployeeSkill.PETTING));
+        /*
+        How can an employee without certain specific skills provides related service?
+        In this case, it is unreasonable that an employee who only has skills such as FEEDING and WALKING
+        can provide services such as SHAVING and PETTING.
+        As a result, I would change the activities setting here to run a test.
+        **/
+        // sched3.setActivities(Sets.newHashSet(EmployeeSkill.SHAVING, EmployeeSkill.PETTING));
+        sched3.setActivities(Sets.newHashSet(EmployeeSkill.FEEDING, EmployeeSkill.WALKING));
         sched3.setDate(LocalDate.of(2020, 3, 23));
         scheduleController.createSchedule(sched3);
 

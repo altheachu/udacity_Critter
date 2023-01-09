@@ -15,7 +15,7 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pet_id",nullable = false)
-    private Long id;
+    private long id;
     @Column(nullable = false)
     private PetType type;
 
@@ -32,11 +32,11 @@ public class Pet {
     @ManyToOne(targetEntity = Customer.class, optional = false)
     private Customer customer;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -43,7 +43,10 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = new ArrayList<>();
         Iterable<Customer> iter = customerRepository.findAll();
         for(Iterator<Customer> iterator = iter.iterator(); iterator.hasNext();){
-            customers.add(iterator.next());
+            Customer customer = iterator.next();
+            List<Pet> pets = petRepository.findAllByCustomer(customer);
+            customer.setPets(pets);
+            customers.add(customer);
         }
         return customers;
     }
@@ -52,6 +55,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomerByPetId(long petId) {
         Pet pet = petRepository.findById(petId).get();
         Customer customer = customerRepository.findById(pet.getCustomer().getId()).get();
+        List<Pet> pets = petRepository.findAllByCustomer(customer);
+        customer.setPets(pets);
         return customer;
     }
 
