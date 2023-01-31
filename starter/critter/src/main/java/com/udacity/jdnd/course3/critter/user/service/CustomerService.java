@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface CustomerService {
 
-    Customer saveCustomer(Customer customer, List<Long> petIds);
+    Customer saveCustomer(Customer customer, List<Long> petIds) throws Exception;
 
-    List<Customer> getAllCustomer();
+    List<Customer> getAllCustomer() throws Exception;
 
-    Customer getCustomerByPetId(long petId);
+    Customer getCustomerByPetId(long petId) throws Exception;
 
 }

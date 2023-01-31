@@ -22,17 +22,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
     @Override
-    public Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) throws Exception{
         return employeeRepository.save(employee);
     }
 
     @Override
-    public Employee findEmployeeById(long employeeId) {
+    public Employee findEmployeeById(long employeeId) throws Exception {
         return employeeRepository.findById(employeeId).get();
     }
 
     @Override
-    public void saveDaysAvailableByEmployeeId(Set<DayOfWeek> daysAvailable, long employeeId) {
+    public void saveDaysAvailableByEmployeeId(Set<DayOfWeek> daysAvailable, long employeeId) throws Exception{
         Employee employee = employeeRepository.findById(employeeId).get();
         if(employee!=null){
             employee.setDaysAvailable(daysAvailable);

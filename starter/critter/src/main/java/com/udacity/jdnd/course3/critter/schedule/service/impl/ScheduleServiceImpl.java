@@ -69,7 +69,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getSchedulesByEmployeeId(long employeeId) {
+    public List<Schedule> getSchedulesByEmployeeId(long employeeId) throws Exception{
         Employee employee = employeeService.findEmployeeById(employeeId);
         return scheduleRepository.findSchedulesByEmployees(employee);
     }

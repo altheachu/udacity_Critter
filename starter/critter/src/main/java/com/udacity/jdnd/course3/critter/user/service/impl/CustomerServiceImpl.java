@@ -25,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
     @Transactional
     @Override
-    public Customer saveCustomer(Customer customer, List<Long> petIds) {
+    public Customer saveCustomer(Customer customer, List<Long> petIds) throws Exception{
         List<Pet> pets = new ArrayList<>();
         if(petIds!=null && !petIds.isEmpty()){
             petIds.forEach(petId->{
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomer() {
+    public List<Customer> getAllCustomer() throws Exception{
         List<Customer> customers = new ArrayList<>();
         Iterable<Customer> iter = customerRepository.findAll();
         for(Iterator<Customer> iterator = iter.iterator(); iterator.hasNext();){
@@ -52,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerByPetId(long petId) {
+    public Customer getCustomerByPetId(long petId) throws Exception{
         Pet pet = petRepository.findById(petId).get();
         Customer customer = customerRepository.findById(pet.getCustomer().getId()).get();
         List<Pet> pets = petRepository.findAllByCustomer(customer);

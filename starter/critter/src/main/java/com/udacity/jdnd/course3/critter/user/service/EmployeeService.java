@@ -10,11 +10,11 @@ import java.util.Set;
 
 public interface EmployeeService {
 
-    Employee saveEmployee(Employee employee);
+    Employee saveEmployee(Employee employee) throws Exception;
 
-    Employee findEmployeeById(long employeeId);
+    Employee findEmployeeById(long employeeId) throws Exception;
 
-    void saveDaysAvailableByEmployeeId(Set<DayOfWeek> daysAvailable, long employeeId);
+    void saveDaysAvailableByEmployeeId(Set<DayOfWeek> daysAvailable, long employeeId) throws Exception;
 
     List<Employee> findEmployeeMeetService(LocalDate date, Set<EmployeeSkill> skills);
 }

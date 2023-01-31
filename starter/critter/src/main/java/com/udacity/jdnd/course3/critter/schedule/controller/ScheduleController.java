@@ -6,6 +6,7 @@ import com.udacity.jdnd.course3.critter.schedule.entity.Schedule;
 import com.udacity.jdnd.course3.critter.schedule.model.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.schedule.service.ScheduleService;
 import com.udacity.jdnd.course3.critter.user.entity.Employee;
+import com.udacity.jdnd.course3.critter.user.model.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -73,13 +74,19 @@ public class ScheduleController {
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
 
-        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-        List<Schedule> schedules = scheduleService.getSchedulesByEmployeeId(employeeId);
-        schedules.forEach(schedule -> {
-            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
-            scheduleDTOs.add(scheduleDTO);
-        });
-        return scheduleDTOs;
+        try{
+            List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+            List<Schedule> schedules = scheduleService.getSchedulesByEmployeeId(employeeId);
+            schedules.forEach(schedule -> {
+                ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+                scheduleDTOs.add(scheduleDTO);
+            });
+            return scheduleDTOs;
+        }catch(Exception e){
+            System.out.println("get schedule by employeeId failed:" + e.getMessage());
+            return new ArrayList<>();
+        }
+
 
     }
 
@@ -98,24 +105,29 @@ public class ScheduleController {
 
     private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){
 
-        Schedule schedule = new Schedule();
-        schedule.setActivities(scheduleDTO.getActivities());
-        schedule.setDate(scheduleDTO.getDate());
+        try{
+            Schedule schedule = new Schedule();
+            schedule.setActivities(scheduleDTO.getActivities());
+            schedule.setDate(scheduleDTO.getDate());
 
-        List<Pet> pets = new ArrayList<>();
-        for (Long petId : scheduleDTO.getPetIds()){
-            Pet pet = petService.findPetById(petId);
-            pets.add(pet);
-        }
-        schedule.setPets(pets);
+            List<Pet> pets = new ArrayList<>();
+            for (Long petId : scheduleDTO.getPetIds()){
+                Pet pet = petService.findPetById(petId);
+                pets.add(pet);
+            }
+            schedule.setPets(pets);
 
-        List<Employee> employees = new ArrayList<>();
-        for(Long employeeId : scheduleDTO.getEmployeeIds()){
-            Employee employee = employeeService.findEmployeeById(employeeId);
-            employees.add(employee);
+            List<Employee> employees = new ArrayList<>();
+            for(Long employeeId : scheduleDTO.getEmployeeIds()){
+                Employee employee = employeeService.findEmployeeById(employeeId);
+                employees.add(employee);
+            }
+            schedule.setEmployees(employees);
+            return schedule;
+        }catch(Exception e){
+            System.out.println("convert scheduleDTO to schedule failed:" + e.getMessage());
+            return new Schedule();
         }
-        schedule.setEmployees(employees);
-        return schedule;
     }
 
     private ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule){

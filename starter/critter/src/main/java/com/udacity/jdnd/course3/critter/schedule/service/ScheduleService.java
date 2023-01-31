@@ -13,7 +13,7 @@ public interface ScheduleService {
 
     List<Schedule> getSchedulesByPetId(long petId);
 
-    List<Schedule> getSchedulesByEmployeeId(long employeeId);
+    List<Schedule> getSchedulesByEmployeeId(long employeeId) throws Exception;
 
     List<Schedule> getSchedulesByPets(List<Pet> pets);
 }

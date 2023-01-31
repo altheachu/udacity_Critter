@@ -43,61 +43,90 @@ public class UserController {
     /**return a saved customer matching the request*/
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        Customer customer = this.customerDTOToCustomer(customerDTO);
-        customer = customerService.saveCustomer(customer, customerDTO.getPetIds());
-        return this.customerToCustomerDTO(customer);
+        try{
+            Customer customer = this.customerDTOToCustomer(customerDTO);
+            customer = customerService.saveCustomer(customer, customerDTO.getPetIds());
+            return this.customerToCustomerDTO(customer);
+        }catch(Exception e){
+            System.out.println("save customer failed:" + e.getMessage());
+            return new CustomerDTO();
+        }
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        List<Customer> customers = customerService.getAllCustomer();
-        List<CustomerDTO> customerDTOs = new ArrayList<>();
-        for(Customer customer: customers){
-            CustomerDTO customerDTO = new CustomerDTO();
-            List<Pet> pets = customer.getPets();
-            List<Long> petIds = new ArrayList<>();
-            for(Pet pet:pets){
-                petIds.add(pet.getId());
+        try{
+            List<Customer> customers = customerService.getAllCustomer();
+            List<CustomerDTO> customerDTOs = new ArrayList<>();
+            for(Customer customer: customers){
+                CustomerDTO customerDTO = new CustomerDTO();
+                List<Pet> pets = customer.getPets();
+                List<Long> petIds = new ArrayList<>();
+                for(Pet pet:pets){
+                    petIds.add(pet.getId());
+                }
+                BeanUtils.copyProperties(customer,customerDTO);
+                customerDTO.setPetIds(petIds);
+                customerDTOs.add(customerDTO);
             }
-            BeanUtils.copyProperties(customer,customerDTO);
-            customerDTO.setPetIds(petIds);
-            customerDTOs.add(customerDTO);
+            return customerDTOs;
+        }catch(Exception e){
+            System.out.println("get customer list failed:" + e.getMessage());
+            return new ArrayList<>();
         }
-        return customerDTOs;
     }
 
-    /**return the saved owner used to create the pet.*/
+    /**return the owner who used to register a certain pet.*/
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        Customer customer = customerService.getCustomerByPetId(petId);
-        CustomerDTO customerDTO = this.customerToCustomerDTO(customer);
-        List<Pet> pets = customer.getPets();
-        List<Long> petIds = new ArrayList<>();
-        for(Pet pet:pets){
-            petIds.add(pet.getId());
+        try {
+            Customer customer = customerService.getCustomerByPetId(petId);
+            CustomerDTO customerDTO = this.customerToCustomerDTO(customer);
+            List<Pet> pets = customer.getPets();
+            List<Long> petIds = new ArrayList<>();
+            for (Pet pet : pets) {
+                petIds.add(pet.getId());
+            }
+            customerDTO.setPetIds(petIds);
+            return customerDTO;
+        }catch(Exception e){
+            System.out.println("get customer by a pet failed:" + e.getMessage());
+            return new CustomerDTO();
         }
-        customerDTO.setPetIds(petIds);
-        return customerDTO;
     }
 
     /**return a saved employee*/
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        Employee employee = this.employeeDTOTOEmployee(employeeDTO);
-        employee = employeeService.saveEmployee(employee);
-        return this.employeeTOEmployeeDTO(employee);
+        try{
+            Employee employee = this.employeeDTOTOEmployee(employeeDTO);
+            employee = employeeService.saveEmployee(employee);
+            return this.employeeTOEmployeeDTO(employee);
+        }catch(Exception e){
+            System.out.println("save employee failed:" + e.getMessage());
+            return new EmployeeDTO();
+        }
     }
 
     @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        Employee employee = employeeService.findEmployeeById(employeeId);
-        return this.employeeTOEmployeeDTO(employee);
+        try{
+            Employee employee = employeeService.findEmployeeById(employeeId);
+            return this.employeeTOEmployeeDTO(employee);
+        }catch(Exception e){
+            System.out.println("get employee by id failed:" + e.getMessage());
+            return new EmployeeDTO();
+        }
     }
 
     /**return an employee with the same availability as set for that employee*/
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        employeeService.saveDaysAvailableByEmployeeId(daysAvailable, employeeId);
+        try{
+            employeeService.saveDaysAvailableByEmployeeId(daysAvailable, employeeId);
+        }catch(Exception e){
+            System.out.println("get availability for an employee failed:" + e.getMessage());
+        }
     }
 
     /**return all saved employees that have the requested availability and skills and none that do not*/
