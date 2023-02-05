@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    Schedule createSchedule(Schedule schedule);
+    Schedule createSchedule(Schedule schedule) throws Exception;
 
-    List<Schedule> getAllSchedules();
+    List<Schedule> getAllSchedules() throws Exception;
 
-    List<Schedule> getSchedulesByPetId(long petId);
+    List<Schedule> getSchedulesByPetId(long petId) throws Exception;
 
     List<Schedule> getSchedulesByEmployeeId(long employeeId) throws Exception;
 
-    List<Schedule> getSchedulesByPets(List<Pet> pets);
+    List<Schedule> getSchedulesByPets(List<Pet> pets) throws Exception;
 }

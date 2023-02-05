@@ -25,7 +25,7 @@ public class PetServiceImpl implements PetService {
 
     @Transactional
     @Override
-    public Pet savePet(Pet pet, long ownerId) {
+    public Pet savePet(Pet pet, long ownerId) throws Exception{
         Customer customer = customerRepository.findById(ownerId).get();
         pet.setCustomer(customer);
         pet =petRepository.save(pet);
@@ -33,12 +33,12 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Pet findPetById(long petId) {
+    public Pet findPetById(long petId) throws Exception{
         return petRepository.findById(petId).get();
     }
 
     @Override
-    public List<Pet> findAllPet() {
+    public List<Pet> findAllPet() throws Exception{
         List<Pet> pets = new ArrayList<>();
         Iterable<Pet> iter = petRepository.findAll();
         for(Iterator<Pet> iterator = iter.iterator();iterator.hasNext();){
@@ -48,7 +48,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Pet> findPetByOwnerId(long ownerId) {
+    public List<Pet> findPetByOwnerId(long ownerId) throws Exception{
         Customer customer = customerRepository.findById(ownerId).get();
         List<Pet> pets = petRepository.findAllByCustomer(customer);
         return pets;

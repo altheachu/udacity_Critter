@@ -16,5 +16,5 @@ public interface EmployeeService {
 
     void saveDaysAvailableByEmployeeId(Set<DayOfWeek> daysAvailable, long employeeId) throws Exception;
 
-    List<Employee> findEmployeeMeetService(LocalDate date, Set<EmployeeSkill> skills);
+    List<Employee> findEmployeeMeetService(LocalDate date, Set<EmployeeSkill> skills) throws Exception;
 }

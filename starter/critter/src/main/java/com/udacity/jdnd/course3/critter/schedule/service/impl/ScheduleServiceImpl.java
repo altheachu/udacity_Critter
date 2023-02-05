@@ -26,7 +26,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule createSchedule(Schedule schedule){
+    public Schedule createSchedule(Schedule schedule) throws Exception{
 
         boolean isActivityMatchSkills = false;
         Set<EmployeeSkill> allAssignedEmployeesSkills = new HashSet<>();
@@ -53,7 +53,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getAllSchedules() {
+    public List<Schedule> getAllSchedules() throws Exception{
         List<Schedule> schedules = new ArrayList<>();
         Iterable<Schedule> iter = scheduleRepository.findAll();
         for(Iterator<Schedule> iterator = iter.iterator(); iterator.hasNext(); ){
@@ -63,7 +63,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getSchedulesByPetId(long petId) {
+    public List<Schedule> getSchedulesByPetId(long petId) throws Exception{
         Pet pet = petRepository.findById(petId).get();
         return scheduleRepository.findSchedulesByPets(pet);
     }
@@ -75,7 +75,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getSchedulesByPets(List<Pet> pets) {
+    public List<Schedule> getSchedulesByPets(List<Pet> pets) throws Exception{
         return scheduleRepository.findSchedulesByPetsIn(pets);
     }
 }

@@ -41,7 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findEmployeeMeetService(LocalDate localDate, Set<EmployeeSkill> employeeSkills) {
+    public List<Employee> findEmployeeMeetService(LocalDate localDate, Set<EmployeeSkill> employeeSkills) throws Exception{
         Employee employee = new Employee();
         DayOfWeek weekday = localDate.getDayOfWeek();
         List<Employee> employees = employeeRepository.findAllByDaysAvailable(weekday);

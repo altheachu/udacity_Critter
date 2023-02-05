@@ -132,15 +132,20 @@ public class UserController {
     /**return all saved employees that have the requested availability and skills and none that do not*/
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeRequestDTO) {
-        LocalDate inquiryDate = employeeRequestDTO.getDate();
-        Set<EmployeeSkill> inquirySkills = employeeRequestDTO.getSkills();
-        List<Employee> employees = employeeService.findEmployeeMeetService(inquiryDate, inquirySkills);
-        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
-        for(Employee employee : employees){
-            EmployeeDTO employeeDTO = this.employeeTOEmployeeDTO(employee);
-            employeeDTOs.add(employeeDTO);
+        try{
+            LocalDate inquiryDate = employeeRequestDTO.getDate();
+            Set<EmployeeSkill> inquirySkills = employeeRequestDTO.getSkills();
+            List<Employee> employees = employeeService.findEmployeeMeetService(inquiryDate, inquirySkills);
+            List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+            for(Employee employee : employees){
+                EmployeeDTO employeeDTO = this.employeeTOEmployeeDTO(employee);
+                employeeDTOs.add(employeeDTO);
+            }
+            return employeeDTOs;
+        }catch(Exception e){
+            System.out.println("get employee with availability and skills failed:" + e.getMessage());
+            return new ArrayList<>();
         }
-        return employeeDTOs;
     }
 
     private Customer customerDTOToCustomer(CustomerDTO customerDTO){

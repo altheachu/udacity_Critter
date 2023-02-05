@@ -35,39 +35,53 @@ public class ScheduleController {
     /**return a saved schedule*/
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO){
-        Schedule schedule = this.convertScheduleDTOToSchedule(scheduleDTO);
-        schedule = scheduleService.createSchedule(schedule);
-        if(schedule!=null){
-            scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
-        }else{
-            scheduleDTO = null;
+        try{
+            Schedule schedule = this.convertScheduleDTOToSchedule(scheduleDTO);
+            schedule = scheduleService.createSchedule(schedule);
+//            if(schedule!=null){
+                scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+//            }else{
+//                scheduleDTO = null;
+//            }
+            return scheduleDTO;
+        }catch (Exception e){
+            System.out.println("create schedule failed"+e.getMessage());
+            return new ScheduleDTO();
         }
-        return scheduleDTO;
     }
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-        List<Schedule> schedules = scheduleService.getAllSchedules();
-        schedules.forEach(schedule -> {
-            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
-            scheduleDTOs.add(scheduleDTO);
-        });
-        return scheduleDTOs;
+        try{
+            List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+            List<Schedule> schedules = scheduleService.getAllSchedules();
+            schedules.forEach(schedule -> {
+                ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+                scheduleDTOs.add(scheduleDTO);
+            });
+            return scheduleDTOs;
+        }catch(Exception e){
+            System.out.println("get all schedules failed"+e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     /**return all saved schedules for that pet.*/
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
 
-        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-        List<Schedule> schedules = scheduleService.getSchedulesByPetId(petId);
-        schedules.forEach(schedule -> {
-            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
-            scheduleDTOs.add(scheduleDTO);
-        });
-        return scheduleDTOs;
-
+        try{
+            List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+            List<Schedule> schedules = scheduleService.getSchedulesByPetId(petId);
+            schedules.forEach(schedule -> {
+                ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+                scheduleDTOs.add(scheduleDTO);
+            });
+            return scheduleDTOs;
+        }catch (Exception e){
+            System.out.println("get all schedules for a certain pet failed"+e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     /**return all saved schedules containing that employee*/
@@ -93,14 +107,19 @@ public class ScheduleController {
     /**return all saved schedules for any pets belonging to that owner*/
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
-        List<Pet> pets = petService.findPetByOwnerId(customerId);
-        List<Schedule> schedules = scheduleService.getSchedulesByPets(pets);
-        schedules.forEach(schedule -> {
-            ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
-            scheduleDTOs.add(scheduleDTO);
-        });
-        return scheduleDTOs;
+        try {
+            List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+            List<Pet> pets = petService.findPetByOwnerId(customerId);
+            List<Schedule> schedules = scheduleService.getSchedulesByPets(pets);
+            schedules.forEach(schedule -> {
+                ScheduleDTO scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
+                scheduleDTOs.add(scheduleDTO);
+            });
+            return scheduleDTOs;
+        }catch (Exception e){
+            System.out.println("get schedules of pets belonging to a certain customer failed:" + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){
