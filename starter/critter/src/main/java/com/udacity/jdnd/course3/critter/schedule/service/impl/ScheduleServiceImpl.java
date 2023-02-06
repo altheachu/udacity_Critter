@@ -10,6 +10,7 @@ import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.user.utils.EmployeeSkill;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -25,6 +26,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.employeeService = employeeService;
     }
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public Schedule createSchedule(Schedule schedule) throws Exception{
 

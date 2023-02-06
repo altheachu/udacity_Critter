@@ -6,6 +6,7 @@ import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.user.utils.EmployeeSkill;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployeeServiceImpl(EmployeeRepository employeeRepository){
         this.employeeRepository = employeeRepository;
     }
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public Employee saveEmployee(Employee employee) throws Exception{
         return employeeRepository.save(employee);
@@ -32,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void saveDaysAvailableByEmployeeId(Set<DayOfWeek> daysAvailable, long employeeId) throws Exception{
         Employee employee = employeeRepository.findById(employeeId).get();
         if(employee!=null){

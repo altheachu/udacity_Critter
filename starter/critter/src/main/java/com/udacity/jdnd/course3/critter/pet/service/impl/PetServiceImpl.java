@@ -23,7 +23,7 @@ public class PetServiceImpl implements PetService {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public Pet savePet(Pet pet, long ownerId) throws Exception{
         Customer customer = customerRepository.findById(ownerId).get();

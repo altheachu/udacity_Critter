@@ -23,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
         this.petRepository = petRepository;
     }
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public Customer saveCustomer(Customer customer, List<Long> petIds) throws Exception{
         List<Pet> pets = new ArrayList<>();
