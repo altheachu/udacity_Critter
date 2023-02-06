@@ -38,8 +38,8 @@ You should see the message "Critter Starter installed successfully" in your brow
 
 1. Read github documents to set up token(https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 2. Reset remote repository paths as 'https://<githubtoken>@github.com/<username>/<repositoryname>.git', there are at least 2 ways:
-  a. use Terminal and key in 'git remote set-url origin https://<githubtoken>@github.com/<username>/<repositoryname>.git'
-  b. use sourceTree GUI and click settings on the upper right corner to reset
+* use Terminal and key in 'git remote set-url origin https://<githubtoken>@github.com/<username>/<repositoryname>.git'
+* use sourceTree GUI and click settings on the upper right corner to reset
 3. Commit and push by using token as password
 
 if token expires, regenerate one and use git or related GUI to reset remote address 
