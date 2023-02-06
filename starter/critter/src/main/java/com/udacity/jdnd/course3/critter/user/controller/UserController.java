@@ -119,7 +119,6 @@ public class UserController {
         }
     }
 
-    /**return an employee with the same availability as set for that employee*/
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
         try{

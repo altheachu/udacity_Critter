@@ -38,11 +38,7 @@ public class ScheduleController {
         try{
             Schedule schedule = this.convertScheduleDTOToSchedule(scheduleDTO);
             schedule = scheduleService.createSchedule(schedule);
-//            if(schedule!=null){
-                scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
-//            }else{
-//                scheduleDTO = null;
-//            }
+            scheduleDTO = this.convertScheduleToScheduleDTO(schedule);
             return scheduleDTO;
         }catch (Exception e){
             System.out.println("create schedule failed"+e.getMessage());
